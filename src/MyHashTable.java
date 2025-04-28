@@ -56,6 +56,83 @@ public class MyHashTable<K, V> {
         chainArray[bucketIndex] = newNode;
     }
 
+    public V get(K key) {
+        int bucketIndex = hash(key);
+        HashNode<K, V> head = chainArray[bucketIndex];
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                return head.value;
+            }
+            head = head.next;
+        }
+        return null;
+    }
+
+    public V remove(K key) {
+        int bucketIndex = hash(key);
+        HashNode<K, V> head = chainArray[bucketIndex];
+        HashNode<K, V> prev = null;
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                break;
+            }
+            prev = head;
+            head = head.next;
+        }
+
+        if (head == null) {
+            return null;
+        }
+
+        size--;
+
+        if (prev != null) {
+            prev.next = head.next;
+        } else {
+            chainArray[bucketIndex] = head.next;
+        }
+
+        return head.value;
+    }
+
+    public boolean contains(V value) {
+        for (int i = 0; i < M; i++) {
+            HashNode<K, V> head = chainArray[i];
+            while (head != null) {
+                if (head.value.equals(value)) {
+                    return true;
+                }
+                head = head.next;
+            }
+        }
+        return false;
+    }
+
+    public K getKey(V value) {
+        for (int i = 0; i < M; i++) {
+            HashNode<K, V> head = chainArray[i];
+            while (head != null) {
+                if (head.value.equals(value)) {
+                    return head.key;
+                }
+                head = head.next;
+            }
+        }
+        return null;
+    }
+
+    // Helper to get M and chainArray for testing
+    public int getM() {
+        return M;
+    }
+
+    public HashNode<K, V>[] getChainArray() {
+        return chainArray;
+    }
+
+
 
 }
 
