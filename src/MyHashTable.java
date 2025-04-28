@@ -33,5 +33,9 @@ public class MyHashTable<K, V> {
         chainArray = new HashNode[M];
         size = 0;
     }
+    private int hash(K key) {
+        return (key.hashCode() & 0x7fffffff) % M;
+    }
+
 }
 
